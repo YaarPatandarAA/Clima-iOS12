@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  WeatherApp
 //
-//  Created by Angela Yu on 23/08/2015.
-//  Copyright (c) 2015 London App Brewery. All rights reserved.
+//  Created by Amarjit Singh on 11/30/2018.
+//  Copyright © 2018 Amarjit Singh. All rights reserved.
 //
 
 import UIKit
@@ -15,7 +15,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     
     //Constants
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
-    let APP_ID = "93fcd0f536a0966b87e6f9a5850174a1"
+    let APP_ID = "xxxxxxxxxxxxxxxxxxxxx"
     /***Get your own App ID at https://openweathermap.org/appid ****/
     
 
@@ -154,10 +154,4 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
             destinationVC.delegate = self
         }
     }
-    
-    
-    
-    
 }
-
-

@@ -2,8 +2,8 @@
 //  ChangeCityViewController.swift
 //  WeatherApp
 //
-//  Created by Angela Yu on 23/08/2015.
-//  Copyright (c) 2015 London App Brewery. All rights reserved.
+//  Created by Amarjit Singh on 11/30/2018.
+//  Copyright © 2018 Amarjit Singh. All rights reserved.
 //
 
 import UIKit
