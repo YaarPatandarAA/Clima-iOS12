@@ -1,3 +1,4 @@
+![](/Clima/Images.xcassets/AppIcon.appiconset/Icon-40@2x.png)
 # Clima
 
 ## What is created
