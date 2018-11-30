@@ -18,7 +18,9 @@ Clima is a location-aware weather app. It will find out where you are in the wor
 * How to pass data between View Controllers.
 * Learn and use Switch statements
 
+## Final App
 
+![](https://github.com/londonappbrewery/Images/blob/master/Clima.gif)
 
 ## Fix for Cocoapods v1.0.1 and below
 
