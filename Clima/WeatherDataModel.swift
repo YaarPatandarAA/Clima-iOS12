@@ -16,6 +16,10 @@ class WeatherDataModel {
     var city: String = ""
     var weatherIconName: String = ""
     
+    var fiveDayTemps = [0,0,0,0,0]
+    var fiveDayConditions = [0,0,0,0,0]
+    var fiveDayWeatherIconNames = ["","","","",""]
+    
     //This method turns a condition code into the name of the weather condition image
     
     func updateWeatherIcon(condition: Int) -> String {

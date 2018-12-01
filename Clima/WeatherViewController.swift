@@ -15,7 +15,8 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     
     //Constants
     let WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
-    let APP_ID = "xxxxxxxxxxxxxxxxxxxxx"
+    let fiveDAY_URL = "http://api.openweathermap.org/data/2.5/forecast"
+    let APP_ID = "270d6bc5de32ecd31ddcef3519d597e2"
     /***Get your own App ID at https://openweathermap.org/appid ****/
     
 
@@ -28,7 +29,9 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
-
+    
+    @IBOutlet var collectionOfWeatherViews: Array<UIImageView>?
+    @IBOutlet var collectionOfWeatherLabel: Array<UILabel>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +56,12 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
             response in
             if response.result.isSuccess{
                 let weatherJSON: JSON = JSON(response.result.value!)
-                self.updateWeatherData(json: weatherJSON)
+                if url==self.WEATHER_URL{
+                    self.updateWeatherData(json: weatherJSON)
+                }
+                else if url==self.fiveDAY_URL{
+                    self.updateFiveDayWeatherData(json: weatherJSON)
+                }
             }
             else{
                 print("Error \(response.result.error!)")
@@ -61,8 +69,6 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
             }
         }
     }
-
-    
     
     
     
@@ -79,11 +85,31 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
             weatherDataModel.condition = json["weather"][0]["id"].intValue
             weatherDataModel.weatherIconName = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.condition)
             
+            //updateUIWithWeatherData()
+        }
+        else{
+            cityLabel.text = "Weather Unavailable"
+            print(json)
+        }
+        
+    }
+    func updateFiveDayWeatherData(json: JSON){
+        if json["list"][4]["main"]["temp"].double != nil {
+            var dayNumIndex = 4
+            for num in 0...4{
+                weatherDataModel.fiveDayTemps[num] = Int(json["list"][dayNumIndex]["main"]["temp"].doubleValue - 273.15)
+                weatherDataModel.fiveDayConditions[num] = json["list"][dayNumIndex]["weather"][0]["id"].intValue
+                weatherDataModel.fiveDayWeatherIconNames[num] = weatherDataModel.updateWeatherIcon(condition: weatherDataModel.fiveDayConditions[num])
+                dayNumIndex+=8
+            }
+            
             updateUIWithWeatherData()
         }
         else{
             cityLabel.text = "Weather Unavailable"
+            print(json)
         }
+        
     }
 
     
@@ -96,8 +122,13 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
     //Write the updateUIWithWeatherData method here:
     func updateUIWithWeatherData() {
         cityLabel.text = weatherDataModel.city
-        temperatureLabel.text = String(weatherDataModel.temperature) + "℃"
+        temperatureLabel.text = "\(weatherDataModel.temperature)°"
         weatherIcon.image = UIImage(named: weatherDataModel.weatherIconName)
+        
+        for numIndex in 0...4{
+            collectionOfWeatherLabel![numIndex].text = "\(weatherDataModel.fiveDayTemps[numIndex])°"
+            collectionOfWeatherViews![numIndex].image = UIImage(named: weatherDataModel.fiveDayWeatherIconNames[numIndex])
+        }
     }
     
     
@@ -121,6 +152,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
             let params : [String:String] = ["lat" : latitude, "lon" : longitude, "appid" : APP_ID]
             
             getWeatherData(url: WEATHER_URL, parameters: params)
+            getWeatherData(url: fiveDAY_URL, parameters: params) //for FIVE DAY
         }
     }
     
@@ -143,6 +175,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate, Change
         
         let params : [String:String] = ["q": city, "appid": APP_ID]
         getWeatherData(url: WEATHER_URL, parameters: params)
+        getWeatherData(url: fiveDAY_URL, parameters: params)
         
     }
     
