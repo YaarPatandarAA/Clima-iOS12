@@ -22,6 +22,9 @@ Clima is a location-aware weather app. It will find out where you are in the wor
 
 ![](https://github.com/londonappbrewery/Images/blob/master/Clima.gif)
 
+## Weather API Key
+https://openweathermap.org/api
+
 ## Fix for Cocoapods v1.0.1 and below
 
 ```ruby
